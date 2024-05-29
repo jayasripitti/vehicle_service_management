@@ -41,6 +41,17 @@ def customer_signup_view(request):
     customerForm = forms.CustomerForm()
     mydict = {'userForm': userForm, 'customerForm': customerForm}
     if request.method == 'POST':
+        """ confirmation email to customer """
+        email = request.POST.get('address')
+        print("Email address is ", email)
+
+        import smtplib
+        smtp = smtplib.SMTP('smtp.gmail.com', 587)
+        smtp.starttls()  
+        smtp.login("jayasripitti007@gmail.com", "olpk lvdq qwjw ogvq")
+        smtp.sendmail("jayasripitti007@gmail.com", [email], "You are Successfully Registered to our Service")
+        smtp.quit()
+
         userForm = forms.CustomerUserForm(request.POST)
         customerForm = forms.CustomerForm(request.POST, request.FILES)
         if userForm.is_valid() and customerForm.is_valid():
